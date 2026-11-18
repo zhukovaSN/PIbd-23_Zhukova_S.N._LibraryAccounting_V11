@@ -1,17 +1,35 @@
+using LibraryAccounting.Repositories;
+using LibraryAccounting.Repositories.Implementations;
+using System;
+using System.Windows.Forms;
+using Unity;
+
 namespace LibraryAccounting
 {
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+
+            Application.Run(CreateContainer().Resolve<FormLibrary>());
+        }
+
+        private static IUnityContainer CreateContainer()
+        {
+            var container = new UnityContainer();
+
+            container.RegisterType<IReaderRepository, ReaderRepository>();
+            container.RegisterType<ILibrarianRepository, LibrarianRepository>();
+            container.RegisterType<ILiteraryItemRepository, LiteraryItemRepository>();
+            container.RegisterType<ILoanRepository, LoanRepository>();
+            container.RegisterType<ISupplyRepository, SupplyRepository>();
+
+            return container;
         }
     }
 }
