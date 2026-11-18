@@ -15,7 +15,6 @@ namespace LibraryAccounting.Repositories.Implementations
 
         public IEnumerable<Supply> ReadSupplies()
         {
-            // Заглушка: возвращаем пустой список
             return new List<Supply>();
         }
     }

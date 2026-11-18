@@ -16,13 +16,11 @@ namespace LibraryAccounting.Repositories.Implementations
 
         public Reader ReadReaderById(int id)
         {
-            // Заглушка: возвращаем пустого читателя
             return Reader.CreateEntity(0, string.Empty, string.Empty, DateTime.Now);
         }
 
         public IEnumerable<Reader> ReadReaders()
         {
-            // Заглушка: возвращаем пустой список
             return new List<Reader>();
         }
 

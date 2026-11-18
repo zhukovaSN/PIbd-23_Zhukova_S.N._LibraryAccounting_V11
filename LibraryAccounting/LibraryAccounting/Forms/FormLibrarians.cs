@@ -24,16 +24,13 @@ namespace LibraryAccounting.Forms
 
         private void LoadList()
         {
-            // Получаем данные из репозитория
+            
             dataGridViewData.DataSource = _librarianRepository.ReadLibrarians();
 
-            // Убираем пустую колонку слева
             dataGridViewData.RowHeadersVisible = false;
 
-            // Растягиваем колонки на всю ширину
             dataGridViewData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Переводим заголовки на русский
             if (dataGridViewData.Columns["Id"] != null)
                 dataGridViewData.Columns["Id"].HeaderText = "Код";
 

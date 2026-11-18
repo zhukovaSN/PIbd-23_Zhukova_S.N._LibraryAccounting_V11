@@ -2,9 +2,9 @@
 using System.Windows.Forms;
 using Unity;
 using LibraryAccounting.Repositories;
-using LibraryAccounting.Forms; // Добавили для поиска других форм
+using LibraryAccounting.Forms; 
 
-namespace LibraryAccounting.Forms // Пространство имен должно быть ТАКИМ ЖЕ, как в дизайнере!
+namespace LibraryAccounting.Forms 
 {
     public partial class FormReaders : Form
     {
@@ -26,10 +26,8 @@ namespace LibraryAccounting.Forms // Пространство имен долж�
         private void LoadList()
         {
             dataGridViewData.RowHeadersVisible = false;
-            // Получаем данные
             dataGridViewData.DataSource = _readerRepository.ReadReaders();
             
-            // Если колонки существуют, меняем их заголовки на русские
             if (dataGridViewData.Columns["Id"] != null)
                 dataGridViewData.Columns["Id"].HeaderText = "Код";
 

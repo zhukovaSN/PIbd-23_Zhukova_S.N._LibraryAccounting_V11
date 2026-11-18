@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LibraryAccounting.Repositories.Implementations
 {
-    internal class LibrarianRepository : ILibrarianRepository // <--- Вот тут должна быть связь с интерфейсом!
+    internal class LibrarianRepository : ILibrarianRepository 
     {
         public void CreateLibrarian(Librarian librarian)
         {

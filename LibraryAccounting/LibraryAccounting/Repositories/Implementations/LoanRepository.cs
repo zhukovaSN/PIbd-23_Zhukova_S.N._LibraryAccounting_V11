@@ -11,7 +11,6 @@ namespace LibraryAccounting.Repositories.Implementations
 
         public IEnumerable<Loan> ReadLoans()
         {
-            // Заглушка: возвращаем пустой список
             return new List<Loan>();
         }
     }

@@ -17,7 +17,6 @@ namespace LibraryAccounting.Forms
             _loanRepository = loanRepository ?? throw new ArgumentNullException(nameof(loanRepository));
         }
 
-        // Дважды кликните по пустому месту формы в конструкторе (событие Load)
         private void FormLoans_Load(object sender, EventArgs e)
         {
             LoadList();
@@ -33,7 +32,6 @@ namespace LibraryAccounting.Forms
             if (dataGridViewData.Columns["ReturnDate"] != null)
                 dataGridViewData.Columns["ReturnDate"].Visible = false;
 
-            // Перевод заголовков на русский
             if (dataGridViewData.Columns["Id"] != null)
                 dataGridViewData.Columns["Id"].HeaderText = "Код";
             if (dataGridViewData.Columns["ReaderId"] != null)
@@ -48,7 +46,6 @@ namespace LibraryAccounting.Forms
                 dataGridViewData.Columns["DueDate"].HeaderText = "Дата возврата";
         }
 
-        // Дважды кликните по кнопке "Выдать" в конструкторе
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             try

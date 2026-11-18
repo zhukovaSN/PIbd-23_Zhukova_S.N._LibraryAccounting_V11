@@ -23,10 +23,9 @@ namespace LibraryAccounting.Forms
             _librarianRepository = librarianRepository;
             _itemRepository = itemRepository;
 
-            // Настраиваем выпадающие списки
             comboBoxReader.DataSource = _readerRepository.ReadReaders();
-            comboBoxReader.DisplayMember = "FullName"; // Показываем ФИО
-            comboBoxReader.ValueMember = "Id";         // Внутри храним Id
+            comboBoxReader.DisplayMember = "FullName"; 
+            comboBoxReader.ValueMember = "Id";         
 
             comboBoxLibrarian.DataSource = _librarianRepository.ReadLibrarians();
             comboBoxLibrarian.DisplayMember = "LastName";
@@ -37,7 +36,6 @@ namespace LibraryAccounting.Forms
             comboBoxItem.ValueMember = "Id";
         }
 
-        // Дважды кликните по кнопке "Выдать"
         private void buttonSave_Click(object sender, EventArgs e)
         {
             if (comboBoxReader.SelectedIndex < 0 ||
@@ -57,8 +55,7 @@ namespace LibraryAccounting.Forms
                 var reader = _readerRepository.ReadReaderById(readerId);
                 var librarian = _librarianRepository.ReadLibrarianById(librarianId);
                 var item = _itemRepository.ReadItemById(itemId);
-
-                // Проверка 1: Просрочен ли билет у читателя
+                //просрочен ли билет
                 if (reader != null && reader.TicketValidUntil < DateTime.Now)
                 {
                     MessageBox.Show($"У читателя {reader.FullName} просрочен билет (до {reader.TicketValidUntil:dd.MM.yyyy})!",
@@ -66,10 +63,9 @@ namespace LibraryAccounting.Forms
                     return;
                 }
 
-                // Проверка 2: Может ли библиотекарь выдавать эту тематику
+                // может ли библиотекарь выдать эту темат.
                 if (librarian != null && item != null)
                 {
-                    // Побитовое И (&) проверяет, совпадают ли темы
                     if ((librarian.AllowedThemes & item.Theme) == 0)
                     {
                         MessageBox.Show($"Библиотекарь {librarian.LastName} не имеет права выдавать литературу этой тематики!",
@@ -78,9 +74,8 @@ namespace LibraryAccounting.Forms
                     }
                 }
 
-                // Если проверки пройдены — создаем запись о выдаче
                 var loan = Loan.CreateOperation(
-                    0, // Id сгенерирует база данных во 2-й лабе
+                    0, 
                     readerId,
                     librarianId,
                     itemId,
@@ -95,12 +90,9 @@ namespace LibraryAccounting.Forms
             }
         }
 
-        // Дважды кликните по кнопке "Отмена"
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             Close();
         }
-
-        
     }
 }

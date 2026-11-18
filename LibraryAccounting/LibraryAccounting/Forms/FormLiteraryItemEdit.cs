@@ -16,7 +16,6 @@ namespace LibraryAccounting.Forms
             InitializeComponent();
             _itemRepository = itemRepository ?? throw new ArgumentNullException(nameof(itemRepository));
 
-            // Заполняем выпадающие списки значениями из перечислений
             comboBoxTheme.DataSource = Enum.GetValues(typeof(LiteraryTheme));
             comboBoxType.DataSource = Enum.GetValues(typeof(ItemType));
         }

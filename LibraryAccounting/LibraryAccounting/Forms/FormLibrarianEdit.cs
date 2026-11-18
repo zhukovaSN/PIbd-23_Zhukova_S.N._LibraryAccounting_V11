@@ -16,7 +16,6 @@ namespace LibraryAccounting.Forms
             InitializeComponent();
             _librarianRepository = librarianRepository ?? throw new ArgumentNullException(nameof(librarianRepository));
 
-            // При создании формы заполняем CheckedListBox значениями из перечисления
             foreach (var elem in Enum.GetValues(typeof(LiteraryTheme)))
             {
                 checkedListBoxThemes.Items.Add(elem);
@@ -35,7 +34,6 @@ namespace LibraryAccounting.Forms
                     textBoxFirstName.Text = librarian.FirstName;
                     textBoxLastName.Text = librarian.LastName;
 
-                    // Проставляем галочки там, где темы совпадают
                     foreach (LiteraryTheme elem in Enum.GetValues(typeof(LiteraryTheme)))
                     {
                         if ((elem & librarian.AllowedThemes) != 0)
@@ -62,7 +60,6 @@ namespace LibraryAccounting.Forms
                 return;
             }
 
-            // Магия флагового перечисления: собираем все галочки в одно число
             LiteraryTheme themes = LiteraryTheme.None;
             foreach (var elem in checkedListBoxThemes.CheckedItems)
             {

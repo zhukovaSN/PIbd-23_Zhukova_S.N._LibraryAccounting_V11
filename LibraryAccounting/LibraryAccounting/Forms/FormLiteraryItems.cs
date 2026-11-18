@@ -29,7 +29,6 @@ namespace LibraryAccounting.Forms
             dataGridViewData.RowHeadersVisible = false;
             dataGridViewData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Русские заголовки
             if (dataGridViewData.Columns["Id"] != null)
                 dataGridViewData.Columns["Id"].HeaderText = "Код";
             if (dataGridViewData.Columns["Title"] != null)

@@ -16,7 +16,6 @@ namespace LibraryAccounting
         {
             ApplicationConfiguration.Initialize();
 
-            // Создаем IoC-контейнер и просим его запустить главную форму
             Application.Run(CreateContainer().Resolve<FormLibrary>());
         }
 
@@ -24,8 +23,6 @@ namespace LibraryAccounting
         {
             var container = new UnityContainer();
 
-            // Регистрируем наши репозитории. 
-            // По умолчанию Unity создает новый экземпляр при каждом запросе (Transient)
             container.RegisterType<IReaderRepository, ReaderRepository>();
             container.RegisterType<ILibrarianRepository, LibrarianRepository>();
             container.RegisterType<ILiteraryItemRepository, LiteraryItemRepository>();

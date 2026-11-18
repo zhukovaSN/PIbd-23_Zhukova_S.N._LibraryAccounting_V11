@@ -16,13 +16,11 @@ namespace LibraryAccounting.Repositories.Implementations
 
         public LiteraryItem ReadItemById(int id)
         {
-            // Заглушка: возвращаем пустое издание
             return LiteraryItem.CreateEntity(0, string.Empty, LiteraryTheme.None, ItemType.None);
         }
 
         public IEnumerable<LiteraryItem> ReadItems()
         {
-            // Заглушка: возвращаем пустой список
             return new List<LiteraryItem>();
         }
 

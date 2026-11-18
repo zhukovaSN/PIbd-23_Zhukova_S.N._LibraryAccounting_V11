@@ -17,7 +17,6 @@ namespace LibraryAccounting.Forms
             _supplyRepository = supplyRepository ?? throw new ArgumentNullException(nameof(supplyRepository));
         }
 
-        // Дважды кликните по пустому месту формы, чтобы создать FormSupplies_Load
         private void FormSupplies_Load(object sender, EventArgs e)
         {
             LoadList();
@@ -27,7 +26,6 @@ namespace LibraryAccounting.Forms
         {
             dataGridViewData.DataSource = _supplyRepository.ReadSupplies();
 
-            // Красота
             dataGridViewData.RowHeadersVisible = false;
             dataGridViewData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (dataGridViewData.Columns["SupplyItems"] != null)
@@ -42,7 +40,6 @@ namespace LibraryAccounting.Forms
                 dataGridViewData.Columns["SupplyDate"].HeaderText = "Дата поставки";
         }
 
-        // Дважды кликните по кнопке "Создать"
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             try
@@ -56,7 +53,6 @@ namespace LibraryAccounting.Forms
             }
         }
 
-        // Дважды кликните по кнопке "Удалить"
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridViewData.SelectedRows.Count < 1) return;
