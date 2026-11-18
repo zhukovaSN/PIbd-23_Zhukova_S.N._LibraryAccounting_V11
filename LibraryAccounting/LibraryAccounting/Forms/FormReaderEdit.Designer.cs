@@ -49,15 +49,15 @@
             // 
             // textBoxFullName
             // 
-            textBoxFullName.Location = new Point(26, 54);
+            textBoxFullName.Location = new Point(89, 28);
             textBoxFullName.Name = "textBoxFullName";
-            textBoxFullName.Size = new Size(356, 27);
+            textBoxFullName.Size = new Size(280, 27);
             textBoxFullName.TabIndex = 1;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(26, 96);
+            label2.Location = new Point(26, 85);
             label2.Name = "label2";
             label2.Size = new Size(112, 20);
             label2.TabIndex = 2;
@@ -65,15 +65,15 @@
             // 
             // textBoxTicketNumber
             // 
-            textBoxTicketNumber.Location = new Point(26, 133);
+            textBoxTicketNumber.Location = new Point(179, 82);
             textBoxTicketNumber.Name = "textBoxTicketNumber";
-            textBoxTicketNumber.Size = new Size(356, 27);
+            textBoxTicketNumber.Size = new Size(190, 27);
             textBoxTicketNumber.TabIndex = 3;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(26, 173);
+            label3.Location = new Point(26, 148);
             label3.Name = "label3";
             label3.Size = new Size(129, 20);
             label3.TabIndex = 4;
@@ -81,14 +81,14 @@
             // 
             // dateTimePickerValidUntil
             // 
-            dateTimePickerValidUntil.Location = new Point(26, 208);
+            dateTimePickerValidUntil.Location = new Point(179, 143);
             dateTimePickerValidUntil.Name = "dateTimePickerValidUntil";
             dateTimePickerValidUntil.Size = new Size(160, 27);
             dateTimePickerValidUntil.TabIndex = 5;
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(386, 369);
+            buttonSave.Location = new Point(26, 207);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(94, 29);
             buttonSave.TabIndex = 6;
@@ -98,7 +98,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(386, 404);
+            buttonCancel.Location = new Point(218, 207);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(94, 29);
             buttonCancel.TabIndex = 7;
@@ -110,7 +110,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(539, 456);
+            ClientSize = new Size(411, 308);
             Controls.Add(buttonCancel);
             Controls.Add(buttonSave);
             Controls.Add(dateTimePickerValidUntil);

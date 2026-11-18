@@ -30,6 +30,7 @@ namespace LibraryAccounting
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLibrary));
             menuStrip1 = new MenuStrip();
             directoriesMenuItem = new ToolStripMenuItem();
             readersMenuItem = new ToolStripMenuItem();
@@ -47,7 +48,7 @@ namespace LibraryAccounting
             menuStrip1.Items.AddRange(new ToolStripItem[] { directoriesMenuItem, operationsMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 28);
+            menuStrip1.Size = new Size(627, 28);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -61,21 +62,21 @@ namespace LibraryAccounting
             // readersMenuItem
             // 
             readersMenuItem.Name = "readersMenuItem";
-            readersMenuItem.Size = new Size(224, 26);
+            readersMenuItem.Size = new Size(192, 26);
             readersMenuItem.Text = "Читатели";
             readersMenuItem.Click += readersMenuItem_Click;
             // 
             // librariansMenuItem
             // 
             librariansMenuItem.Name = "librariansMenuItem";
-            librariansMenuItem.Size = new Size(224, 26);
+            librariansMenuItem.Size = new Size(192, 26);
             librariansMenuItem.Text = "Библиотекари";
             librariansMenuItem.Click += librariansMenuItem_Click;
             // 
             // literaryItemsMenuItem
             // 
             literaryItemsMenuItem.Name = "literaryItemsMenuItem";
-            literaryItemsMenuItem.Size = new Size(224, 26);
+            literaryItemsMenuItem.Size = new Size(192, 26);
             literaryItemsMenuItem.Text = "Издания";
             literaryItemsMenuItem.Click += literaryItemsMenuItem_Click;
             // 
@@ -89,14 +90,14 @@ namespace LibraryAccounting
             // loansMenuItem
             // 
             loansMenuItem.Name = "loansMenuItem";
-            loansMenuItem.Size = new Size(224, 26);
+            loansMenuItem.Size = new Size(157, 26);
             loansMenuItem.Text = "Выдачи";
             loansMenuItem.Click += loansMenuItem_Click;
             // 
             // suppliesMenuItem
             // 
             suppliesMenuItem.Name = "suppliesMenuItem";
-            suppliesMenuItem.Size = new Size(224, 26);
+            suppliesMenuItem.Size = new Size(157, 26);
             suppliesMenuItem.Text = "Поставки";
             suppliesMenuItem.Click += suppliesMenuItem_Click;
             // 
@@ -104,8 +105,11 @@ namespace LibraryAccounting
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Zoom;
+            ClientSize = new Size(627, 477);
             Controls.Add(menuStrip1);
+            DoubleBuffered = true;
             MainMenuStrip = menuStrip1;
             Name = "FormLibrary";
             Text = "Библиотека";
