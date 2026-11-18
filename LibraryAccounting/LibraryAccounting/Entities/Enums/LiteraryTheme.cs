@@ -6,9 +6,9 @@ namespace LibraryAccounting.Entities.Enums
     public enum LiteraryTheme
     {
         None = 0,
-        Fiction = 1,      // Художественная
-        Science = 2,      // Научная
-        History = 4,      // Историческая
-        Technology = 8    // Техническая
+        Fiction = 1,      
+        Science = 2,      
+        History = 4,      
+        Technology = 8    
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.Entities
 {
-    internal class Reader
+    public class Reader
     {
         public int Id { get; private set; }
         public string FullName { get; private set; } = string.Empty;
