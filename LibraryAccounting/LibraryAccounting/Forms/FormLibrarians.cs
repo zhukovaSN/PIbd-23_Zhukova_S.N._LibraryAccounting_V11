@@ -15,6 +15,8 @@ namespace LibraryAccounting.Forms
             InitializeComponent();
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _librarianRepository = librarianRepository ?? throw new ArgumentNullException(nameof(librarianRepository));
+
+            this.Load += FormLibrarians_Load!;
         }
 
         private void FormLibrarians_Load(object sender, EventArgs e)
@@ -24,22 +26,16 @@ namespace LibraryAccounting.Forms
 
         private void LoadList()
         {
-            
             dataGridViewData.DataSource = _librarianRepository.ReadLibrarians();
-
             dataGridViewData.RowHeadersVisible = false;
-
             dataGridViewData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             if (dataGridViewData.Columns["Id"] != null)
                 dataGridViewData.Columns["Id"].HeaderText = "Код";
-
             if (dataGridViewData.Columns["FirstName"] != null)
                 dataGridViewData.Columns["FirstName"].HeaderText = "Имя";
-
             if (dataGridViewData.Columns["LastName"] != null)
                 dataGridViewData.Columns["LastName"].HeaderText = "Фамилия";
-
             if (dataGridViewData.Columns["AllowedThemes"] != null)
                 dataGridViewData.Columns["AllowedThemes"].HeaderText = "Доступные темы";
         }
@@ -59,7 +55,11 @@ namespace LibraryAccounting.Forms
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            if (dataGridViewData.SelectedRows.Count < 1) return;
+            if (dataGridViewData.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("Сначала выделите строку с библиотекарем!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             var id = Convert.ToInt32(dataGridViewData.SelectedRows[0].Cells["Id"].Value);
             try
@@ -77,13 +77,26 @@ namespace LibraryAccounting.Forms
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            if (dataGridViewData.SelectedRows.Count < 1) return;
+            if (dataGridViewData.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("Сначала выделите строку с библиотекарем!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             var id = Convert.ToInt32(dataGridViewData.SelectedRows[0].Cells["Id"].Value);
 
             if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                _librarianRepository.DeleteLibrarian(id);
-                LoadList();
+                try
+                {
+                    _librarianRepository.DeleteLibrarian(id);
+                    LoadList();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Невозможно удалить библиотекаря, так как он связан с выдачами или поставками!",
+                                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
     }

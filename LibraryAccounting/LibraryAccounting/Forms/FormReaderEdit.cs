@@ -27,7 +27,7 @@ namespace LibraryAccounting.Forms
 
                     textBoxFullName.Text = reader.FullName;
                     textBoxTicketNumber.Text = reader.TicketNumber;
-                    dateTimePickerValidUntil.Value = reader.TicketValidUntil;
+                    dateTimePickerValidUntil.Value = reader.TicketValidUntil.ToLocalTime();
                     _readerId = value;
                 }
                 catch (Exception ex)
@@ -45,18 +45,25 @@ namespace LibraryAccounting.Forms
                 return;
             }
 
-            var reader = Reader.CreateEntity(
-                _readerId ?? 0,
-                textBoxFullName.Text,
-                textBoxTicketNumber.Text,
-                dateTimePickerValidUntil.Value);
+            try
+            {
+                var reader = Reader.CreateEntity(
+                    _readerId ?? 0,
+                    textBoxFullName.Text,
+                    textBoxTicketNumber.Text,
+                    dateTimePickerValidUntil.Value.ToUniversalTime());
 
-            if (_readerId.HasValue)
-                _readerRepository.UpdateReader(reader);
-            else
-                _readerRepository.CreateReader(reader);
+                if (_readerId.HasValue)
+                    _readerRepository.UpdateReader(reader);
+                else
+                    _readerRepository.CreateReader(reader);
 
-            Close();
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

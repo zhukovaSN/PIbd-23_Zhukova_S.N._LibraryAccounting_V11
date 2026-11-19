@@ -30,9 +30,9 @@
         {
             dataGridViewData = new DataGridView();
             panel1 = new Panel();
-            buttonAdd = new Button();
-            buttonUpdate = new Button();
             buttonDelete = new Button();
+            buttonUpdate = new Button();
+            buttonAdd = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewData).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -42,8 +42,10 @@
             dataGridViewData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewData.Dock = DockStyle.Left;
             dataGridViewData.Location = new Point(0, 0);
+            dataGridViewData.MultiSelect = false;
             dataGridViewData.Name = "dataGridViewData";
             dataGridViewData.RowHeadersWidth = 51;
+            dataGridViewData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewData.Size = new Size(593, 450);
             dataGridViewData.TabIndex = 0;
             // 
@@ -58,15 +60,15 @@
             panel1.Size = new Size(207, 450);
             panel1.TabIndex = 1;
             // 
-            // buttonAdd
+            // buttonDelete
             // 
-            buttonAdd.Location = new Point(60, 61);
-            buttonAdd.Name = "buttonAdd";
-            buttonAdd.Size = new Size(94, 29);
-            buttonAdd.TabIndex = 0;
-            buttonAdd.Text = "Добавить";
-            buttonAdd.UseVisualStyleBackColor = true;
-            buttonAdd.Click += buttonAdd_Click;
+            buttonDelete.Location = new Point(60, 151);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(94, 29);
+            buttonDelete.TabIndex = 2;
+            buttonDelete.Text = "Удалить";
+            buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += buttonDelete_Click;
             // 
             // buttonUpdate
             // 
@@ -76,15 +78,17 @@
             buttonUpdate.TabIndex = 1;
             buttonUpdate.Text = "Изменить";
             buttonUpdate.UseVisualStyleBackColor = true;
+            buttonUpdate.Click += buttonUpdate_Click;
             // 
-            // buttonDelete
+            // buttonAdd
             // 
-            buttonDelete.Location = new Point(60, 151);
-            buttonDelete.Name = "buttonDelete";
-            buttonDelete.Size = new Size(94, 29);
-            buttonDelete.TabIndex = 2;
-            buttonDelete.Text = "Удалить";
-            buttonDelete.UseVisualStyleBackColor = true;
+            buttonAdd.Location = new Point(60, 61);
+            buttonAdd.Name = "buttonAdd";
+            buttonAdd.Size = new Size(94, 29);
+            buttonAdd.TabIndex = 0;
+            buttonAdd.Text = "Добавить";
+            buttonAdd.UseVisualStyleBackColor = true;
+            buttonAdd.Click += buttonAdd_Click;
             // 
             // FormLiteraryItems
             // 

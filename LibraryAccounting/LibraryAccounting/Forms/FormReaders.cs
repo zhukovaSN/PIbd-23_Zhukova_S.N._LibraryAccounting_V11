@@ -16,6 +16,8 @@ namespace LibraryAccounting.Forms
             InitializeComponent();
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _readerRepository = readerRepository ?? throw new ArgumentNullException(nameof(readerRepository));
+
+            this.Load += FormReaders_Load!;
         }
 
         private void FormReaders_Load(object sender, EventArgs e)

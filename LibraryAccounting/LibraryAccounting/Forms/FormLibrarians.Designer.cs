@@ -42,8 +42,10 @@
             dataGridViewData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewData.Dock = DockStyle.Left;
             dataGridViewData.Location = new Point(0, 0);
+            dataGridViewData.MultiSelect = false;
             dataGridViewData.Name = "dataGridViewData";
             dataGridViewData.RowHeadersWidth = 51;
+            dataGridViewData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewData.Size = new Size(619, 450);
             dataGridViewData.TabIndex = 0;
             // 

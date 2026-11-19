@@ -1,7 +1,8 @@
-﻿using System;
+﻿using LibraryAccounting.Entities;
+using LibraryAccounting.Repositories;
+using System;
 using System.Windows.Forms;
 using Unity;
-using LibraryAccounting.Repositories;
 
 namespace LibraryAccounting.Forms
 {
@@ -15,6 +16,8 @@ namespace LibraryAccounting.Forms
             InitializeComponent();
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _supplyRepository = supplyRepository ?? throw new ArgumentNullException(nameof(supplyRepository));
+
+            this.Load += FormSupplies_Load!;
         }
 
         private void FormSupplies_Load(object sender, EventArgs e)
@@ -62,6 +65,28 @@ namespace LibraryAccounting.Forms
             {
                 _supplyRepository.DeleteSupply(id);
                 LoadList();
+            }
+        }
+
+        private void buttonView_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewData.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("Выберите поставку для просмотра!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var supply = (Supply)dataGridViewData.SelectedRows[0].DataBoundItem;
+
+            try
+            {
+                var form = _container.Resolve<FormSupplyCreate>();
+                form.SetupForView(supply);
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

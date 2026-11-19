@@ -1,7 +1,8 @@
-﻿using System;
+﻿using LibraryAccounting.Entities;
+using LibraryAccounting.Repositories;
+using System;
 using System.Windows.Forms;
 using Unity;
-using LibraryAccounting.Repositories;
 
 namespace LibraryAccounting.Forms
 {
@@ -15,6 +16,8 @@ namespace LibraryAccounting.Forms
             InitializeComponent();
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _loanRepository = loanRepository ?? throw new ArgumentNullException(nameof(loanRepository));
+
+            this.Load += FormLoans_Load!;
         }
 
         private void FormLoans_Load(object sender, EventArgs e)
@@ -52,6 +55,28 @@ namespace LibraryAccounting.Forms
             {
                 _container.Resolve<FormLoanCreate>().ShowDialog();
                 LoadList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonView_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewData.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("Выберите выдачу для просмотра!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var loan = (Loan)dataGridViewData.SelectedRows[0].DataBoundItem;
+
+            try
+            {
+                var form = _container.Resolve<FormLoanCreate>();
+                form.SetupForView(loan);
+                form.ShowDialog();
             }
             catch (Exception ex)
             {

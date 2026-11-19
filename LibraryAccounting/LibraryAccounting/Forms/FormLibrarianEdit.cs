@@ -16,6 +16,7 @@ namespace LibraryAccounting.Forms
             InitializeComponent();
             _librarianRepository = librarianRepository ?? throw new ArgumentNullException(nameof(librarianRepository));
 
+            checkedListBoxThemes.Items.Clear();
             foreach (var elem in Enum.GetValues(typeof(LiteraryTheme)))
             {
                 checkedListBoxThemes.Items.Add(elem);
@@ -26,6 +27,7 @@ namespace LibraryAccounting.Forms
         {
             set
             {
+                _librarianId = value;
                 try
                 {
                     var librarian = _librarianRepository.ReadLibrarianById(value);
@@ -34,14 +36,22 @@ namespace LibraryAccounting.Forms
                     textBoxFirstName.Text = librarian.FirstName;
                     textBoxLastName.Text = librarian.LastName;
 
-                    foreach (LiteraryTheme elem in Enum.GetValues(typeof(LiteraryTheme)))
+                    for (int i = 0; i < checkedListBoxThemes.Items.Count; i++)
                     {
-                        if ((elem & librarian.AllowedThemes) != 0)
+                        checkedListBoxThemes.SetItemChecked(i, false);
+                    }
+
+                    foreach (LiteraryTheme theme in Enum.GetValues(typeof(LiteraryTheme)))
+                    {
+                        if ((librarian.AllowedThemes & theme) != 0 && theme != LiteraryTheme.None)
                         {
-                            checkedListBoxThemes.SetItemChecked(checkedListBoxThemes.Items.IndexOf(elem), true);
+                            int index = checkedListBoxThemes.Items.IndexOf(theme);
+                            if (index >= 0)
+                            {
+                                checkedListBoxThemes.SetItemChecked(index, true);
+                            }
                         }
                     }
-                    _librarianId = value;
                 }
                 catch (Exception ex)
                 {
@@ -60,24 +70,35 @@ namespace LibraryAccounting.Forms
                 return;
             }
 
-            LiteraryTheme themes = LiteraryTheme.None;
-            foreach (var elem in checkedListBoxThemes.CheckedItems)
+            try
             {
-                themes |= (LiteraryTheme)elem;
+                LiteraryTheme themes = LiteraryTheme.None;
+                foreach (var item in checkedListBoxThemes.CheckedItems)
+                {
+                    themes |= (LiteraryTheme)item;
+                }
+
+                var librarian = Librarian.CreateEntity(
+                    _librarianId ?? 0,
+                    textBoxFirstName.Text,
+                    textBoxLastName.Text,
+                    themes);
+
+                if (_librarianId.HasValue)
+                {
+                    _librarianRepository.UpdateLibrarian(librarian);
+                }
+                else
+                {
+                    _librarianRepository.CreateLibrarian(librarian);
+                }
+
+                Close();
             }
-
-            var librarian = Librarian.CreateEntity(
-                _librarianId ?? 0,
-                textBoxFirstName.Text,
-                textBoxLastName.Text,
-                themes);
-
-            if (_librarianId.HasValue)
-                _librarianRepository.UpdateLibrarian(librarian);
-            else
-                _librarianRepository.CreateLibrarian(librarian);
-
-            Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

@@ -24,6 +24,7 @@ namespace LibraryAccounting.Forms
         {
             set
             {
+                _itemId = value;
                 try
                 {
                     var item = _itemRepository.ReadItemById(value);
@@ -32,7 +33,6 @@ namespace LibraryAccounting.Forms
                     textBoxTitle.Text = item.Title;
                     comboBoxTheme.SelectedItem = item.Theme;
                     comboBoxType.SelectedItem = item.Type;
-                    _itemId = value;
                 }
                 catch (Exception ex)
                 {
@@ -49,18 +49,29 @@ namespace LibraryAccounting.Forms
                 return;
             }
 
-            var item = LiteraryItem.CreateEntity(
-                _itemId ?? 0,
-                textBoxTitle.Text,
-                (LiteraryTheme)comboBoxTheme.SelectedItem!,
-                (ItemType)comboBoxType.SelectedItem!);
+            try
+            {
+                var item = LiteraryItem.CreateEntity(
+                    _itemId ?? 0,
+                    textBoxTitle.Text,
+                    (LiteraryTheme)comboBoxTheme.SelectedItem!,
+                    (ItemType)comboBoxType.SelectedItem!);
 
-            if (_itemId.HasValue)
-                _itemRepository.UpdateItem(item);
-            else
-                _itemRepository.CreateItem(item);
+                if (_itemId.HasValue)
+                {
+                    _itemRepository.UpdateItem(item);
+                }
+                else
+                {
+                    _itemRepository.CreateItem(item);
+                }
 
-            Close();
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

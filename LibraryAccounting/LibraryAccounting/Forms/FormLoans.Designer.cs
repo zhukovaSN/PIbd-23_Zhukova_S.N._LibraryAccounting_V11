@@ -31,6 +31,7 @@
             dataGridViewData = new DataGridView();
             panel1 = new Panel();
             buttonAdd = new Button();
+            buttonView = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewData).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -40,13 +41,16 @@
             dataGridViewData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewData.Dock = DockStyle.Left;
             dataGridViewData.Location = new Point(0, 0);
+            dataGridViewData.MultiSelect = false;
             dataGridViewData.Name = "dataGridViewData";
             dataGridViewData.RowHeadersWidth = 51;
+            dataGridViewData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewData.Size = new Size(639, 450);
             dataGridViewData.TabIndex = 0;
             // 
             // panel1
             // 
+            panel1.Controls.Add(buttonView);
             panel1.Controls.Add(buttonAdd);
             panel1.Dock = DockStyle.Right;
             panel1.Location = new Point(637, 0);
@@ -63,6 +67,16 @@
             buttonAdd.Text = "Выдать";
             buttonAdd.UseVisualStyleBackColor = true;
             buttonAdd.Click += buttonAdd_Click;
+            // 
+            // buttonView
+            // 
+            buttonView.Location = new Point(29, 362);
+            buttonView.Name = "buttonView";
+            buttonView.Size = new Size(94, 29);
+            buttonView.TabIndex = 1;
+            buttonView.Text = "Детали ";
+            buttonView.UseVisualStyleBackColor = true;
+            buttonView.Click += buttonView_Click;
             // 
             // FormLoans
             // 
@@ -83,5 +97,6 @@
         private DataGridView dataGridViewData;
         private Panel panel1;
         private Button buttonAdd;
+        private Button buttonView;
     }
 }

@@ -15,6 +15,8 @@ namespace LibraryAccounting.Forms
             InitializeComponent();
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _itemRepository = itemRepository ?? throw new ArgumentNullException(nameof(itemRepository));
+
+            this.Load += FormLiteraryItems_Load!;
         }
 
         private void FormLiteraryItems_Load(object sender, EventArgs e)
@@ -25,7 +27,6 @@ namespace LibraryAccounting.Forms
         private void LoadList()
         {
             dataGridViewData.DataSource = _itemRepository.ReadItems();
-
             dataGridViewData.RowHeadersVisible = false;
             dataGridViewData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
@@ -54,7 +55,12 @@ namespace LibraryAccounting.Forms
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            if (dataGridViewData.SelectedRows.Count < 1) return;
+            if (dataGridViewData.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("Сначала выделите строку с изданием!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             var id = Convert.ToInt32(dataGridViewData.SelectedRows[0].Cells["Id"].Value);
 
             try
@@ -72,13 +78,26 @@ namespace LibraryAccounting.Forms
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            if (dataGridViewData.SelectedRows.Count < 1) return;
+            if (dataGridViewData.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("Сначала выделите строку с изданием!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             var id = Convert.ToInt32(dataGridViewData.SelectedRows[0].Cells["Id"].Value);
 
             if (MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                _itemRepository.DeleteItem(id);
-                LoadList();
+                try
+                {
+                    _itemRepository.DeleteItem(id);
+                    LoadList();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Невозможно удалить издание, так как оно уже связано с выдачами или поставками!",
+                                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
     }
