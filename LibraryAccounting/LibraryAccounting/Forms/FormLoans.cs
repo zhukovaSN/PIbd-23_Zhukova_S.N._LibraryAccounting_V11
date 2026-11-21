@@ -1,6 +1,7 @@
 ﻿using LibraryAccounting.Entities;
 using LibraryAccounting.Repositories;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using Unity;
 
@@ -10,12 +11,20 @@ namespace LibraryAccounting.Forms
     {
         private readonly IUnityContainer _container;
         private readonly ILoanRepository _loanRepository;
+        private readonly IReaderRepository _readerRepository;
+        private readonly ILibrarianRepository _librarianRepository;
+        private readonly ILiteraryItemRepository _itemRepository;
 
-        public FormLoans(IUnityContainer container, ILoanRepository loanRepository)
+        public FormLoans(IUnityContainer container, ILoanRepository loanRepository,
+                         IReaderRepository readerRepository, ILibrarianRepository librarianRepository,
+                         ILiteraryItemRepository itemRepository)
         {
             InitializeComponent();
             _container = container ?? throw new ArgumentNullException(nameof(container));
             _loanRepository = loanRepository ?? throw new ArgumentNullException(nameof(loanRepository));
+            _readerRepository = readerRepository ?? throw new ArgumentNullException(nameof(readerRepository));
+            _librarianRepository = librarianRepository ?? throw new ArgumentNullException(nameof(librarianRepository));
+            _itemRepository = itemRepository ?? throw new ArgumentNullException(nameof(itemRepository));
 
             this.Load += FormLoans_Load!;
         }
@@ -27,26 +36,24 @@ namespace LibraryAccounting.Forms
 
         private void LoadList()
         {
-            dataGridViewData.DataSource = _loanRepository.ReadLoans();
+            var readers = _readerRepository.ReadReaders().ToDictionary(r => r.Id, r => r.FullName);
+            var librarians = _librarianRepository.ReadLibrarians().ToDictionary(l => l.Id, l => $"{l.LastName} {l.FirstName}");
+            var items = _itemRepository.ReadItems().ToDictionary(i => i.Id, i => i.Title);
+            var loans = _loanRepository.ReadLoans();
 
+            var displayList = loans.Select(l => new
+            {
+                Код = l.Id,
+                Читатель = readers.ContainsKey(l.ReaderId) ? readers[l.ReaderId] : "Неизвестен",
+                Библиотекарь = librarians.ContainsKey(l.LibrarianId) ? librarians[l.LibrarianId] : "Неизвестен",
+                Издание = items.ContainsKey(l.LiteraryItemId) ? items[l.LiteraryItemId] : "Неизвестно",
+                Дата_выдачи = l.LoanDate.ToLocalTime(),
+                Дата_возврата = l.DueDate.ToLocalTime()
+            }).ToList();
+
+            dataGridViewData.DataSource = displayList;
             dataGridViewData.RowHeadersVisible = false;
             dataGridViewData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            if (dataGridViewData.Columns["ReturnDate"] != null)
-                dataGridViewData.Columns["ReturnDate"].Visible = false;
-
-            if (dataGridViewData.Columns["Id"] != null)
-                dataGridViewData.Columns["Id"].HeaderText = "Код";
-            if (dataGridViewData.Columns["ReaderId"] != null)
-                dataGridViewData.Columns["ReaderId"].HeaderText = "Читатель";
-            if (dataGridViewData.Columns["LibrarianId"] != null)
-                dataGridViewData.Columns["LibrarianId"].HeaderText = "Библиотекарь";
-            if (dataGridViewData.Columns["LiteraryItemId"] != null)
-                dataGridViewData.Columns["LiteraryItemId"].HeaderText = "Издание";
-            if (dataGridViewData.Columns["LoanDate"] != null)
-                dataGridViewData.Columns["LoanDate"].HeaderText = "Дата выдачи";
-            if (dataGridViewData.Columns["DueDate"] != null)
-                dataGridViewData.Columns["DueDate"].HeaderText = "Дата возврата";
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -55,28 +62,6 @@ namespace LibraryAccounting.Forms
             {
                 _container.Resolve<FormLoanCreate>().ShowDialog();
                 LoadList();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void buttonView_Click(object sender, EventArgs e)
-        {
-            if (dataGridViewData.SelectedRows.Count < 1)
-            {
-                MessageBox.Show("Выберите выдачу для просмотра!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var loan = (Loan)dataGridViewData.SelectedRows[0].DataBoundItem;
-
-            try
-            {
-                var form = _container.Resolve<FormLoanCreate>();
-                form.SetupForView(loan);
-                form.ShowDialog();
             }
             catch (Exception ex)
             {

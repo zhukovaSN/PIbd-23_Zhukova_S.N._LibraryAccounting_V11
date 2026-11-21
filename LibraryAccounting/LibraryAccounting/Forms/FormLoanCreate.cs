@@ -91,26 +91,5 @@ namespace LibraryAccounting.Forms
         {
             Close();
         }
-
-
-        public void SetupForView(Loan loan)
-        {
-            this.Text = "Просмотр выдачи";
-
-            comboBoxReader.SelectedValue = loan.ReaderId;
-            comboBoxReader.Enabled = false;
-
-            comboBoxLibrarian.SelectedValue = loan.LibrarianId;
-            comboBoxLibrarian.Enabled = false;
-
-            comboBoxItem.SelectedValue = loan.LiteraryItemId;
-            comboBoxItem.Enabled = false;
-
-            dateTimePickerDueDate.Value = loan.DueDate.ToLocalTime();
-            dateTimePickerDueDate.Enabled = false;
-
-            buttonSave.Visible = false;
-            buttonCancel.Text = "Закрыть";
-        }
     }
 }
