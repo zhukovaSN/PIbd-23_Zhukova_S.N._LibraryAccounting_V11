@@ -115,6 +115,7 @@
             buttonCancel.TabIndex = 6;
             buttonCancel.Text = "Отмена";
             buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // FormSupplyCreate
             // 

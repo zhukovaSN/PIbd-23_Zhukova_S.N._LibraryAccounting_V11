@@ -3,7 +3,7 @@ using System;
 using System.Windows.Forms;
 using Unity;
 
-namespace LibraryAccounting 
+namespace LibraryAccounting
 {
     public partial class FormLibrary : Form
     {

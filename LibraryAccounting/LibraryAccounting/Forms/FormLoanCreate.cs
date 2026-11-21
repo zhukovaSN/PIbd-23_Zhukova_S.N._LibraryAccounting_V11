@@ -24,8 +24,8 @@ namespace LibraryAccounting.Forms
             _itemRepository = itemRepository;
 
             comboBoxReader.DataSource = _readerRepository.ReadReaders();
-            comboBoxReader.DisplayMember = "FullName"; 
-            comboBoxReader.ValueMember = "Id";         
+            comboBoxReader.DisplayMember = "FullName";
+            comboBoxReader.ValueMember = "Id";
 
             comboBoxLibrarian.DataSource = _librarianRepository.ReadLibrarians();
             comboBoxLibrarian.DisplayMember = "LastName";
@@ -55,31 +55,28 @@ namespace LibraryAccounting.Forms
                 var reader = _readerRepository.ReadReaderById(readerId);
                 var librarian = _librarianRepository.ReadLibrarianById(librarianId);
                 var item = _itemRepository.ReadItemById(itemId);
-                //просрочен ли билет
-                if (reader != null && reader.TicketValidUntil < DateTime.Now)
+
+                if (reader != null && reader.TicketValidUntil < DateTime.UtcNow)
                 {
-                    MessageBox.Show($"У читателя {reader.FullName} просрочен билет (до {reader.TicketValidUntil:dd.MM.yyyy})!",
-                                    "Отказ", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show($"У читателя {reader.FullName} просрочен билет!", "Отказ", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return;
                 }
 
-                // может ли библиотекарь выдать эту темат.
                 if (librarian != null && item != null)
                 {
                     if ((librarian.AllowedThemes & item.Theme) == 0)
                     {
-                        MessageBox.Show($"Библиотекарь {librarian.LastName} не имеет права выдавать литературу этой тематики!",
-                                        "Отказ", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        MessageBox.Show($"Библиотекарь {librarian.LastName} не имеет права выдавать литературу этой тематики!", "Отказ", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         return;
                     }
                 }
 
                 var loan = Loan.CreateOperation(
-                    0, 
+                    0,
                     readerId,
                     librarianId,
                     itemId,
-                    dateTimePickerDueDate.Value);
+                    dateTimePickerDueDate.Value.ToUniversalTime());
 
                 _loanRepository.CreateLoan(loan);
                 Close();

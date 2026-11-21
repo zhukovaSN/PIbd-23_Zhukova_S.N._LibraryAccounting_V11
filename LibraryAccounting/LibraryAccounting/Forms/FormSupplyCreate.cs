@@ -46,7 +46,7 @@ namespace LibraryAccounting.Forms
                     if (row.Cells["ColumnItem"].Value != null && row.Cells["ColumnCount"].Value != null)
                     {
                         supplyItems.Add(SupplyItem.CreateElement(
-                            0, 
+                            0,
                             Convert.ToInt32(row.Cells["ColumnItem"].Value),
                             Convert.ToInt32(row.Cells["ColumnCount"].Value)));
                     }
@@ -74,6 +74,25 @@ namespace LibraryAccounting.Forms
             Close();
         }
 
-      
+        public void SetupForView(Supply supply)
+        {
+            this.Text = "Просмотр поставки";
+
+            comboBoxLibrarian.SelectedValue = supply.LibrarianId;
+            comboBoxLibrarian.Enabled = false;
+
+            dataGridViewItems.Rows.Clear();
+            dataGridViewItems.ReadOnly = true;
+            dataGridViewItems.AllowUserToAddRows = false;
+            dataGridViewItems.AllowUserToDeleteRows = false;
+
+            foreach (var item in supply.SupplyItems)
+            {
+                dataGridViewItems.Rows.Add(item.LiteraryItemId, item.Count);
+            }
+
+            buttonSave.Visible = false;
+            buttonCancel.Text = "Закрыть";
+        }
     }
 }
